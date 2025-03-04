@@ -1,5 +1,6 @@
 <html lang="en">
 <head>
+    <button class="random-code-btn" onclick="window.location.href='random-code.html'">Random Code</button>
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Images%20Of%20Things/Website.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -242,6 +243,33 @@
         .modal-content::-webkit-scrollbar-thumb:hover {
             background: #ccc; /* Lighter color on hover */
         }
+        .random-code-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #ff0000, #ff9900, #33cc33, #0099ff, #9900cc);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.random-code-btn:hover {
+    transform: scale(1.05);
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
     </style>
 </head>
 <body>
@@ -251,10 +279,10 @@
     <h1 style="text-align: center; margin-top: 50px; color: white;">Roblox Scripts Hub</h1>
 
     <!-- Tabs Navigation -->
-    <div class="tabs">
-        <div class="tab active-tab" onclick="showTab('lua')">Lua Scripts</div>
-        <div class="tab" onclick="showTab('executers')">Executers</div>
-    </div>
+<div class="tabs">
+    <div class="tab" data-tab="lua">Lua Scripts</div>
+    <div class="tab" data-tab="executers">Executers</div>
+</div>
 
     <!-- Lua Scripts Section -->
     <div id="lua" class="container">
@@ -465,7 +493,34 @@
             },
             retina_detect: true
         });
+        // Add this JavaScript code at the bottom of your file
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tab');
+    
+    // Set initial active tab
+    tabs[0].classList.add('active-tab');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active-tab'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active-tab');
+            
+            // Hide all containers
+            document.querySelectorAll('.container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            // Show selected container
+            const targetId = tab.getAttribute('data-tab');
+            document.getElementById(targetId).style.display = 'flex';
+        });
+    });
+});
     </script>
 
 </body>
 </html>
+
