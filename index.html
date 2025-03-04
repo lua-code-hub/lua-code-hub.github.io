@@ -258,11 +258,11 @@
 
     <!-- Lua Scripts Section -->
     <div id="lua" class="container">
-        <div class="script-item" onclick="openModal('Aimbot', 'Aimbot/ESP Script', 'https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true', 'https://lua-code-hub.github.io/Pages/Aimbot.html')">
+        <div class="script-item" onclick="openModal('Aimbot', 'Aimbot/ESP Script', 'https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true', 'https://lua-code-hub.github.io/Pages/Aimbot.html', 'aimbot')">
             <img src="https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true" alt="Aimbot">
             <p>Aimbot/ESP</p>
         </div>
-        <div class="script-item" onclick="openModal('UD Aimbot', 'UD Aimbot/ESP Script', 'https://via.placeholder.com/350x175', 'https://lua-code-hub.github.io/Pages/UD-Aimbot.html')">
+        <div class="script-item" onclick="openModal('UD Aimbot', 'UD Aimbot/ESP Script', 'https://via.placeholder.com/350x175', 'https://lua-code-hub.github.io/Pages/UD-Aimbot.html', 'ud-aimbot')">
             <img src="https://via.placeholder.com/350x175" alt="UD Aimbot">
             <p>UD Aimbot/ESP Script</p>
         </div>
@@ -301,46 +301,56 @@
     <script>
         // Show content based on tab selection
         function showTab(tabName) {
-            // Hide all content
             const allContent = document.querySelectorAll('.container');
             allContent.forEach(content => content.style.display = 'none');
             
-            // Show selected content
             document.getElementById(tabName).style.display = 'flex';
             
-            // Update active tab style
             let tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active-tab'));
             const activeTab = document.querySelector(`.tab:nth-child(${tabName === 'lua' ? 1 : 2})`);
             activeTab.classList.add('active-tab');
         }
 
-        // Function to open modal
-        function openModal(title, description, imageUrl, websiteUrl) {
-            document.getElementById('scriptModal').style.display = 'flex';  // Show modal
-            document.getElementById('modalTitle').innerText = title;  // Set title
-            document.getElementById('modalDescription').innerText = description;  // Set description
-            document.getElementById('modalImage').src = imageUrl;  // Set image
-            document.getElementById('redirectButton').setAttribute('onclick', `window.location.href = '${websiteUrl}'`);  // Set redirect URL
+        // Function to open modal and show different hotkeys based on script
+        function openModal(title, description, imageUrl, websiteUrl, scriptType) {
+            document.getElementById('scriptModal').style.display = 'flex';
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalImage').src = imageUrl;
+            document.getElementById('redirectButton').setAttribute('onclick', `window.location.href = '${websiteUrl}'`);
 
-            // Hotkeys container
-            let hotkeysHtml = `
-                <div class="hotkey-item">Numpad 1: Toggle ESP master switch</div>
-                <div class="hotkey-item">Numpad 2: Toggle Aimbot</div>
-                <div class="hotkey-item">Numpad 3: Toggle ESP Boxes</div>
-                <div class="hotkey-item">Numpad 4: Toggle ESP Names</div>
-                <div class="hotkey-item">Numpad 5: Toggle ESP Distance</div>
-                <div class="hotkey-item">Numpad 6: Toggle Snaplines</div>
-                <div class="hotkey-item">Numpad 7: Toggle Team Check (both ESP and Aimbot)</div>
-                <div class="hotkey-item">Numpad 8: Toggle Rainbow ESP</div>
-                <div class="hotkey-item">Numpad 9: Toggle FOV Circle</div>
-            `;
-            document.getElementById('hotkeysContainer').innerHTML = hotkeysHtml;  // Add hotkeys
+            // Hotkeys based on the script type
+            let hotkeysHtml = '';
+            if (scriptType === 'aimbot') {
+                hotkeysHtml = `
+                    <div class="hotkey-item">Numpad 1: Toggle ESP master switch</div>
+                    <div class="hotkey-item">Numpad 2: Toggle Aimbot</div>
+                    <div class="hotkey-item">Numpad 3: Toggle ESP Boxes</div>
+                    <div class="hotkey-item">Numpad 4: Toggle ESP Names</div>
+                    <div class="hotkey-item">Numpad 5: Toggle ESP Distance</div>
+                    <div class="hotkey-item">Numpad 6: Toggle Snaplines</div>
+                    <div class="hotkey-item">Numpad 7: Toggle Team Check (both ESP and Aimbot)</div>
+                    <div class="hotkey-item">Numpad 8: Toggle Rainbow ESP</div>
+                    <div class="hotkey-item">Numpad 9: Toggle FOV Circle</div>
+                `;
+            } else if (scriptType === 'ud-aimbot') {
+                hotkeysHtml = `
+                    <div class="hotkey-item">F1: Enable Aimbot</div>
+                    <div class="hotkey-item">F2: Toggle ESP</div>
+                    <div class="hotkey-item">F3: Toggle Triggerbot</div>
+                    <div class="hotkey-item">F4: Toggle Silent Aimbot</div>
+                `;
+            } else {
+                hotkeysHtml = `<div class="hotkey-item">No hotkeys available for this script.</div>`;
+            }
+
+            document.getElementById('hotkeysContainer').innerHTML = hotkeysHtml;
         }
 
         // Function to close modal
         function closeModal() {
-            document.getElementById('scriptModal').style.display = 'none';  // Hide modal
+            document.getElementById('scriptModal').style.display = 'none';
         }
 
         // Initialize particles.js
