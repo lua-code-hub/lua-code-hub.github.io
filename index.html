@@ -12,35 +12,110 @@
             overflow: hidden;
             background-color: #000; /* Black background */
         }
+
+        /* Tabs Navigation Styles */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #111;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Animated Rainbow Effect on Active Tab */
+        @keyframes rainbow {
+            0% { background-color: #ff0000; }
+            14% { background-color: #ff9900; }
+            28% { background-color: #33cc33; }
+            42% { background-color: #3399ff; }
+            57% { background-color: #9900cc; }
+            71% { background-color: #ff0066; }
+            85% { background-color: #ff6600; }
+            100% { background-color: #ff0000; }
+        }
+
+        .tab {
+            margin: 0 20px;
+            padding: 12px 25px;
+            color: #bbb;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            background-color: #111;  /* Default black background for all tabs */
+        }
+
+        /* Only apply rainbow effect to the active tab */
+        .active-tab {
+            background-color: #FF6600;
+            color: white;
+            animation: rainbow 5s linear infinite; /* Rainbow animation */
+        }
+
+        /* Hover Effect on Tab */
+        .tab:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .tab:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: white;
+            animation: rainbow 5s linear infinite; /* Rainbow animation */
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .tab:hover:before {
+            width: 100%;
+        }
+
+        /* Container for content */
         .container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: center;
             padding: 20px;
             position: relative;
-            z-index: 1; /* Ensure content appears above particles */
+            z-index: 1;
         }
+
         .script-item {
             text-align: center;
-            margin: 30px;  /* Increased margin between items */
+            margin: 30px;
             cursor: pointer;
-            transition: transform 0.3s ease;  /* Add a hover effect */
-        }
-        .script-item:hover {
-            transform: scale(1.1);  /* Slightly scale up on hover */
-        }
-        .script-item img {
-            width: 350px;  /* Increased width */
-            height: 175px; /* Increased height for a more rectangular, wide look */
+            transition: transform 0.3s ease;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);  /* Increased box shadow for a better hover effect */
         }
+
+        .script-item:hover {
+            transform: scale(1.05);  /* Slightly scale up on hover */
+        }
+
+        .script-item img {
+            width: 350px;
+            height: 175px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
         .script-item p {
             margin-top: 15px;
             font-weight: bold;
-            font-size: 24px;  /* Increase font size */
+            font-size: 20px;
             color: white;
-            text-transform: uppercase; /* Make the text uppercase */
+            text-transform: uppercase;
         }
 
         /* Modal Styles */
@@ -51,26 +126,26 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 2;
             align-items: center;
             justify-content: center;
         }
 
         .modal-content {
-            background-color: rgba(0, 0, 0, 0.9); /* Transparent background matching the page's dark theme */
+            background-color: rgba(0, 0, 0, 0.9);
             padding: 30px;
             border-radius: 15px;
             text-align: center;
-            width: 80%; /* Increased modal width */
-            max-width: 1000px; /* Max width for larger screens */
+            width: 80%;
+            max-width: 1000px;
             position: relative;
-            color: white; /* Ensure text is visible */
+            color: white;
         }
 
         .modal-content img {
-            width: 900px;  /* 1.8 times the original size */
-            height: auto; /* Maintain aspect ratio */
+            width: 900px;
+            height: auto;
             border-radius: 15px;
             margin-bottom: 20px;
         }
@@ -92,22 +167,22 @@
             cursor: pointer;
         }
 
-        /* Hotkeys Styling */
+        /* Hotkeys List Styles */
         .hotkeys-list {
             margin-top: 20px;
             display: flex;
-            flex-direction: column;  /* Stack hotkeys vertically */
-            align-items: flex-start;  /* Align them to the left */
+            flex-direction: column;
+            align-items: flex-start;
             font-size: 20px;
             line-height: 1.8;
         }
 
         .hotkey-item {
-            margin-bottom: 15px;  /* More space between items */
+            margin-bottom: 15px;
         }
 
         .redirect-btn {
-            background-color: #007BFF;
+            background-color: #FF6600;
             color: white;
             padding: 15px 30px;
             margin-top: 20px;
@@ -119,26 +194,33 @@
         }
 
         .redirect-btn:hover {
-            background-color: #0056b3;
+            background-color: #FF4500;
         }
 
         #particles-js {
             position: absolute;
-            top: -50%; /* Move particles container slightly above the screen */
+            top: -50%;
             left: 0;
             width: 100%;
-            height: 200%; /* Stretch particles to cover the full screen */
-            z-index: 0; /* Ensure particles are at the background */
+            height: 200%;
+            z-index: 0;
         }
     </style>
 </head>
 <body>
 
-    <div id="particles-js"></div> <!-- Particles Background -->
+    <div id="particles-js"></div>
 
     <h1 style="text-align: center; margin-top: 50px; color: white;">Roblox Scripts Hub</h1>
 
-    <div class="container">
+    <!-- Tabs Navigation -->
+    <div class="tabs">
+        <div class="tab active-tab" onclick="showTab('lua')">Lua Scripts</div>
+        <div class="tab" onclick="showTab('executers')">Executers</div>
+    </div>
+
+    <!-- Lua Scripts Section -->
+    <div id="lua" class="container">
         <div class="script-item" onclick="openModal('Aimbot', 'Aimbot/ESP Script', 'https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true', 'https://www.robloxscripts.com/aimbot')">
             <img src="https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true" alt="Aimbot">
             <p>Aimbot/ESP</p>
@@ -147,9 +229,17 @@
             <img src="https://via.placeholder.com/350x175" alt="UD Aimbot">
             <p>UD Aimbot/ESP Script</p>
         </div>
-        <div class="script-item" onclick="openModal('Script 3', 'Script 3 Description', 'https://via.placeholder.com/350x175', 'https://www.robloxscripts.com/script3')">
-            <img src="https://via.placeholder.com/350x175" alt="Script 3">
-            <p>Script 3</p>
+    </div>
+
+    <!-- Executers Section -->
+    <div id="executers" class="container" style="display: none;">
+        <div class="script-item" onclick="openModal('Executor 1', 'Executor Script 1', 'https://via.placeholder.com/350x175', 'https://www.robloxscripts.com/executor1')">
+            <img src="https://via.placeholder.com/350x175" alt="Executor 1">
+            <p>Executor 1</p>
+        </div>
+        <div class="script-item" onclick="openModal('Executor 2', 'Executor Script 2', 'https://via.placeholder.com/350x175', 'https://www.robloxscripts.com/executor2')">
+            <img src="https://via.placeholder.com/350x175" alt="Executor 2">
+            <p>Executor 2</p>
         </div>
     </div>
 
@@ -160,7 +250,7 @@
             <h2 id="modalTitle"></h2>
             <img id="modalImage" src="" alt="Script Image">
             <p id="modalDescription"></p>
-            <div class="hotkeys-list" id="hotkeysContainer"></div> <!-- Hotkeys list will be added here -->
+            <div class="hotkeys-list" id="hotkeysContainer"></div>
             <button class="redirect-btn" id="redirectButton" onclick="window.location.href = '';">Go to Script Website</button>
         </div>
     </div>
@@ -168,6 +258,22 @@
     <!-- Include Particles.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
+        // Show content based on tab selection
+        function showTab(tabName) {
+            // Hide all content
+            const allContent = document.querySelectorAll('.container');
+            allContent.forEach(content => content.style.display = 'none');
+            
+            // Show selected content
+            document.getElementById(tabName).style.display = 'flex';
+            
+            // Update active tab style
+            let tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active-tab'));
+            const activeTab = document.querySelector(`.tab:nth-child(${tabName === 'lua' ? 1 : 2})`);
+            activeTab.classList.add('active-tab');
+        }
+
         // Function to open modal
         function openModal(title, description, imageUrl, websiteUrl) {
             document.getElementById('scriptModal').style.display = 'flex';  // Show modal
@@ -190,102 +296,64 @@
             document.getElementById('scriptModal').style.display = 'none';  // Hide modal
         }
 
-        // Initialize Particles.js with custom settings
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 100,  /* Increase number of particles */
-                    density: {
-                        enable: true,
-                        value_area: 1000  /* Increase density of particles */
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
                     }
                 },
-                color: {
-                    value: '#ffffff' /* Particle color */
+                "color": {
+                    "value": "#ffffff"
                 },
-                shape: {
-                    type: 'circle',
-                    stroke: {
-                        width: 0,
-                        color: '#000000'
-                    },
-                    polygon: {
-                        nb_sides: 5
-                    },
-                    image: {
-                        src: '',
-                        width: 100,
-                        height: 100
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
                     }
                 },
-                opacity: {
-                    value: 0.6, /* Slightly more opaque particles */
-                    random: false,
-                    anim: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
                     }
                 },
-                size: {
-                    value: 5,  /* Increase particle size */
-                    random: true,
-                    anim: {
-                        enable: false,
-                        speed: 4,
-                        size_min: 0.1,
-                        sync: false
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 4,
+                        "size_min": 0.1,
+                        "sync": false
                     }
                 },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#ffffff',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 6,
-                    direction: 'none',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
                 }
             },
-            interactivity: {
-                detect_on: 'window',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'repulse'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                },
-                modes: {
-                    repulse: {
-                        distance: 100,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 4
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
                     }
                 }
-            },
-            retina_detect: true
+            }
         });
     </script>
-
 </body>
 </html>
