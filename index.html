@@ -4,209 +4,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Scripts Hub</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            overflow: hidden;
-            background-color: #000; /* Black background */
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        background-color: #000; /* Black background */
+    }
 
-        /* Tabs Navigation Styles */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            background-color: #111;
-            padding: 15px 0;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            transition: all 0.3s ease-in-out;
-        }
+    /* Tabs Navigation Styles */
+    .tabs {
+        display: flex;
+        justify-content: center;
+        background-color: #111;
+        padding: 15px 0;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+    }
 
-        /* Animated Rainbow Effect on Active Tab */
-        @keyframes rainbow {
-            0% { background-color: #ff0000; }
-            14% { background-color: #ff9900; }
-            28% { background-color: #33cc33; }
-            42% { background-color: #3399ff; }
-            57% { background-color: #9900cc; }
-            71% { background-color: #ff0066; }
-            85% { background-color: #ff6600; }
-            100% { background-color: #ff0000; }
-        }
+    /* Animated Rainbow Effect on Active Tab */
+    @keyframes rainbow {
+        0% { background-color: #ff0000; }
+        14% { background-color: #ff9900; }
+        28% { background-color: #33cc33; }
+        42% { background-color: #3399ff; }
+        57% { background-color: #9900cc; }
+        71% { background-color: #ff0066; }
+        85% { background-color: #ff6600; }
+        100% { background-color: #ff0000; }
+    }
 
-        .tab {
-            margin: 0 20px;
-            padding: 12px 25px;
-            color: #bbb;
-            cursor: pointer;
-            font-size: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 5px;
-            position: relative;
-            transition: color 0.3s ease, background-color 0.3s ease;
-            background-color: #111;  /* Default black background for all tabs */
-        }
+    .tab {
+        margin: 0 20px;
+        padding: 12px 25px;
+        color: #bbb;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 5px;
+        position: relative;
+        transition: color 0.3s ease, background-color 0.3s ease;
+        background-color: #111;  /* Default black background for all tabs */
+    }
 
-        /* Only apply rainbow effect to the active tab */
-        .active-tab {
-            background-color: #FF6600;
-            color: white;
-            animation: rainbow 5s linear infinite; /* Rainbow animation */
-        }
+    /* Only apply rainbow effect to the active tab */
+    .active-tab {
+        background-color: #FF6600;
+        color: white;
+        animation: rainbow 5s linear infinite; /* Rainbow animation */
+    }
 
-        /* Hover Effect on Tab */
-        .tab:hover {
-            background-color: #333;
-            color: #fff;
-        }
+    /* Hover Effect on Tab */
+    .tab:hover {
+        background-color: #333;
+        color: #fff;
+    }
 
-        .tab:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background-color: white;
-            animation: rainbow 5s linear infinite; /* Rainbow animation */
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
+    .tab:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: white;
+        animation: rainbow 5s linear infinite; /* Rainbow animation */
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
 
-        .tab:hover:before {
-            width: 100%;
-        }
+    .tab:hover:before {
+        width: 100%;
+    }
 
-        /* Container for content */
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
+    /* Container for content */
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        position: relative;
+        z-index: 1;
+    }
 
-        .script-item {
-            text-align: center;
-            margin: 30px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            border-radius: 10px;
-        }
+    .script-item {
+        text-align: center;
+        margin: 30px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border-radius: 10px;
+    }
 
-        .script-item:hover {
-            transform: scale(1.05);  /* Slightly scale up on hover */
-        }
+    .script-item:hover {
+        transform: scale(1.05);  /* Slightly scale up on hover */
+    }
 
-        .script-item img {
-            width: 350px;
-            height: 175px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        }
+    .script-item img {
+        width: 350px;
+        height: 175px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
 
-        .script-item p {
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-            text-transform: uppercase;
-        }
+    .script-item p {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 20px;
+        color: white;
+        /* Removed text-transform: uppercase; */
+    }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2;
-            align-items: center;
-            justify-content: center;
-        }
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 2;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .modal-content {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            width: 80%;
-            max-width: 1000px;
-            position: relative;
-            color: white;
-        }
+    .modal-content {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        width: 80%;
+        max-width: 1000px;
+        position: relative;
+        color: white;
+    }
 
-        .modal-content img {
-            width: 900px;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
+    .modal-content img {
+        width: 900px;
+        height: auto;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
 
-        .close {
-            color: #aaa;
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            cursor: pointer;
-        }
+    .close {
+        color: #aaa;
+        font-size: 32px;
+        font-weight: bold;
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        cursor: pointer;
+    }
 
-        .close:hover,
-        .close:focus {
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .close:hover,
+    .close:focus {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
-        /* Hotkeys List Styles */
-        .hotkeys-list {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            font-size: 20px;
-            line-height: 1.8;
-        }
+    /* Hotkeys List Styles */
+    .hotkeys-list {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 20px;
+        line-height: 1.8;
+    }
 
-        .hotkey-item {
-            margin-bottom: 15px;
-        }
+    .hotkey-item {
+        margin-bottom: 15px;
+    }
 
-        .redirect-btn {
-            background-color: #FF6600;
-            color: white;
-            padding: 15px 30px;
-            margin-top: 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s;
-            font-size: 18px;
-        }
+    .redirect-btn {
+        background-color: #FF6600;
+        color: white;
+        padding: 15px 30px;
+        margin-top: 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: background-color 0.3s;
+        font-size: 18px;
+    }
 
-        .redirect-btn:hover {
-            background-color: #FF4500;
-        }
+    .redirect-btn:hover {
+        background-color: #FF4500;
+    }
 
-        #particles-js {
-            position: absolute;
-            top: -50%;
-            left: 0;
-            width: 100%;
-            height: 200%;
-            z-index: 0;
-        }
-    </style>
+    #particles-js {
+        position: absolute;
+        top: -50%;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        z-index: 0;
+    }
+</style>
 </head>
 <body>
 
