@@ -22,20 +22,106 @@
         }
         .script-item {
             text-align: center;
-            margin: 15px;
+            margin: 30px;  /* Increased margin between items */
             cursor: pointer;
+            transition: transform 0.3s ease;  /* Add a hover effect */
+        }
+        .script-item:hover {
+            transform: scale(1.1);  /* Slightly scale up on hover */
         }
         .script-item img {
-            width: 200px;
-            height: 200px;
+            width: 350px;  /* Increased width */
+            height: 175px; /* Increased height for a more rectangular, wide look */
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);  /* Increased box shadow for a better hover effect */
         }
         .script-item p {
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
+            font-size: 24px;  /* Increase font size */
             color: white;
+            text-transform: uppercase; /* Make the text uppercase */
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+            z-index: 2;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: rgba(0, 0, 0, 0.9); /* Transparent background matching the page's dark theme */
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 80%; /* Increased modal width */
+            max-width: 1000px; /* Max width for larger screens */
+            position: relative;
+            color: white; /* Ensure text is visible */
+        }
+
+        .modal-content img {
+            width: 900px;  /* 1.8 times the original size */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Hotkeys Styling */
+        .hotkeys-list {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;  /* Stack hotkeys vertically */
+            align-items: flex-start;  /* Align them to the left */
+            font-size: 20px;
+            line-height: 1.8;
+        }
+
+        .hotkey-item {
+            margin-bottom: 15px;  /* More space between items */
+        }
+
+        .redirect-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 30px;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+            font-size: 18px;
+        }
+
+        .redirect-btn:hover {
+            background-color: #0056b3;
+        }
+
         #particles-js {
             position: absolute;
             top: -50%; /* Move particles container slightly above the screen */
@@ -53,23 +139,57 @@
     <h1 style="text-align: center; margin-top: 50px; color: white;">Roblox Scripts Hub</h1>
 
     <div class="container">
-        <div class="script-item" onclick="window.location.href='Pages/Aimbot.html'">
+        <div class="script-item" onclick="openModal('Aimbot', 'Aimbot/ESP Script', 'https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true', 'https://www.robloxscripts.com/aimbot')">
             <img src="https://github.com/lua-code-hub/lua-code-hub.github.io/blob/main/Images%20Of%20Things/Aimbot&ESP.png?raw=true" alt="Aimbot">
             <p>Aimbot/ESP</p>
         </div>
-        <div class="script-item" onclick="window.location.href='Pages/UD-Aimbot.html'">
-            <img src="https://via.placeholder.com/200" alt="Aimbot">
+        <div class="script-item" onclick="openModal('UD Aimbot', 'UD Aimbot/ESP Script', 'https://via.placeholder.com/350x175', 'https://www.robloxscripts.com/ud-aimbot')">
+            <img src="https://via.placeholder.com/350x175" alt="UD Aimbot">
             <p>UD Aimbot/ESP Script</p>
         </div>
-        <div class="script-item" onclick="window.location.href='script3.html'">
-            <img src="https://via.placeholder.com/200" alt="Script 3">
+        <div class="script-item" onclick="openModal('Script 3', 'Script 3 Description', 'https://via.placeholder.com/350x175', 'https://www.robloxscripts.com/script3')">
+            <img src="https://via.placeholder.com/350x175" alt="Script 3">
             <p>Script 3</p>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="scriptModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <img id="modalImage" src="" alt="Script Image">
+            <p id="modalDescription"></p>
+            <div class="hotkeys-list" id="hotkeysContainer"></div> <!-- Hotkeys list will be added here -->
+            <button class="redirect-btn" id="redirectButton" onclick="window.location.href = '';">Go to Script Website</button>
         </div>
     </div>
 
     <!-- Include Particles.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
+        // Function to open modal
+        function openModal(title, description, imageUrl, websiteUrl) {
+            document.getElementById('scriptModal').style.display = 'flex';  // Show modal
+            document.getElementById('modalTitle').innerText = title;  // Set title
+            document.getElementById('modalDescription').innerText = description;  // Set description
+            document.getElementById('modalImage').src = imageUrl;  // Set image
+            document.getElementById('redirectButton').setAttribute('onclick', `window.location.href = '${websiteUrl}'`);  // Set redirect URL
+
+            // Hotkeys container
+            let hotkeysHtml = `
+                <div class="hotkey-item">Hotkey 1: Toggle Aimbot (F1)</div>
+                <div class="hotkey-item">Hotkey 2: Toggle ESP (F2)</div>
+                <div class="hotkey-item">Hotkey 3: Speed Boost (F3)</div>
+            `;
+            document.getElementById('hotkeysContainer').innerHTML = hotkeysHtml;  // Add hotkeys
+        }
+
+        // Function to close modal
+        function closeModal() {
+            document.getElementById('scriptModal').style.display = 'none';  // Hide modal
+        }
+
         // Initialize Particles.js with custom settings
         particlesJS('particles-js', {
             particles: {
