@@ -1,211 +1,226 @@
 <html lang="en">
 <head>
-      <link rel="shortcut icon" href="https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Images%20Of%20Things/Website.png" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Images%20Of%20Things/Website.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Scripts Hub By Syfer-eng</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        overflow: hidden;
-        background-color: #000; /* Black background */
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            background-color: #000; /* Black background */
+            height: 100vh;
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
 
-    /* Tabs Navigation Styles */
-    .tabs {
-        display: flex;
-        justify-content: center;
-        background-color: #111;
-        padding: 15px 0;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
-        transition: all 0.3s ease-in-out;
-    }
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
 
-    /* Animated Rainbow Effect on Active Tab */
-    @keyframes rainbow {
-        0% { background-color: #ff0000; }
-        14% { background-color: #ff9900; }
-        28% { background-color: #33cc33; }
-        42% { background-color: #3399ff; }
-        57% { background-color: #9900cc; }
-        71% { background-color: #ff0066; }
-        85% { background-color: #ff6600; }
-        100% { background-color: #ff0000; }
-    }
+        ::-webkit-scrollbar-thumb {
+            background-color: #FF6600;
+            border-radius: 10px;
+        }
 
-    .tab {
-        margin: 0 20px;
-        padding: 12px 25px;
-        color: #bbb;
-        cursor: pointer;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 5px;
-        position: relative;
-        transition: color 0.3s ease, background-color 0.3s ease;
-        background-color: #111;  /* Default black background for all tabs */
-    }
+        ::-webkit-scrollbar-track {
+            background: #222;
+        }
 
-    /* Only apply rainbow effect to the active tab */
-    .active-tab {
-        background-color: #FF6600;
-        color: white;
-        animation: rainbow 5s linear infinite; /* Rainbow animation */
-    }
+        /* Tabs Navigation Styles */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #111;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
 
-    /* Hover Effect on Tab */
-    .tab:hover {
-        background-color: #333;
-        color: #fff;
-    }
+        /* Animated Rainbow Effect on Active Tab */
+        @keyframes rainbow {
+            0% { background-color: #ff0000; }
+            14% { background-color: #ff9900; }
+            28% { background-color: #33cc33; }
+            42% { background-color: #3399ff; }
+            57% { background-color: #9900cc; }
+            71% { background-color: #ff0066; }
+            85% { background-color: #ff6600; }
+            100% { background-color: #ff0000; }
+        }
 
-    .tab:before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 3px;
-        background-color: white;
-        animation: rainbow 5s linear infinite; /* Rainbow animation */
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-    }
+        .tab {
+            margin: 0 20px;
+            padding: 12px 25px;
+            color: #bbb;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            background-color: #111;  /* Default black background for all tabs */
+        }
 
-    .tab:hover:before {
-        width: 100%;
-    }
+        /* Only apply rainbow effect to the active tab */
+        .active-tab {
+            background-color: #FF6600;
+            color: white;
+            animation: rainbow 5s linear infinite; /* Rainbow animation */
+        }
 
-    /* Container for content */
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-        position: relative;
-        z-index: 1;
-    }
+        /* Hover Effect on Tab */
+        .tab:hover {
+            background-color: #333;
+            color: #fff;
+        }
 
-    .script-item {
-        text-align: center;
-        margin: 30px;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        border-radius: 10px;
-    }
+        .tab:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: white;
+            animation: rainbow 5s linear infinite; /* Rainbow animation */
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
 
-    .script-item:hover {
-        transform: scale(1.05);  /* Slightly scale up on hover */
-    }
+        .tab:hover:before {
+            width: 100%;
+        }
 
-    .script-item img {
-        width: 350px;
-        height: 175px;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    }
+        /* Container for content */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 50px; /* Added margin at the bottom to allow scroll */
+        }
 
-    .script-item p {
-        margin-top: 15px;
-        font-weight: bold;
-        font-size: 20px;
-        color: white;
-        /* Removed text-transform: uppercase; */
-    }
+        .script-item {
+            text-align: center;
+            margin: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border-radius: 10px;
+        }
 
-    /* Modal Styles */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 2;
-        align-items: center;
-        justify-content: center;
-    }
+        .script-item:hover {
+            transform: scale(1.05);  /* Slightly scale up on hover */
+        }
 
-    .modal-content {
-        background-color: rgba(0, 0, 0, 0.9);
-        padding: 30px;
-        border-radius: 15px;
-        text-align: center;
-        width: 80%;
-        max-width: 1000px;
-        position: relative;
-        color: white;
-    }
+        .script-item img {
+            width: 350px;
+            height: 175px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
 
-    .modal-content img {
-        width: 900px;
-        height: auto;
-        border-radius: 15px;
-        margin-bottom: 20px;
-    }
+        .script-item p {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+        }
 
-    .close {
-        color: #aaa;
-        font-size: 32px;
-        font-weight: bold;
-        position: absolute;
-        top: 20px;
-        right: 25px;
-        cursor: pointer;
-    }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .close:hover,
-    .close:focus {
-        color: white;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        .modal-content {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 80%;
+            max-width: 1000px;
+            position: relative;
+            color: white;
+        }
 
-    /* Hotkeys List Styles */
-    .hotkeys-list {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 20px;
-        line-height: 1.8;
-    }
+        .modal-content img {
+            width: 900px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
 
-    .hotkey-item {
-        margin-bottom: 15px;
-    }
+        .close {
+            color: #aaa;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            cursor: pointer;
+        }
 
-    .redirect-btn {
-        background-color: #FF6600;
-        color: white;
-        padding: 15px 30px;
-        margin-top: 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 10px;
-        transition: background-color 0.3s;
-        font-size: 18px;
-    }
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-    .redirect-btn:hover {
-        background-color: #FF4500;
-    }
+        /* Hotkeys List Styles */
+        .hotkeys-list {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 20px;
+            line-height: 1.8;
+        }
 
-    #particles-js {
-        position: absolute;
-        top: -50%;
-        left: 0;
-        width: 100%;
-        height: 200%;
-        z-index: 0;
-    }
-</style>
+        .hotkey-item {
+            margin-bottom: 15px;
+        }
+
+        .redirect-btn {
+            background-color: #FF6600;
+            color: white;
+            padding: 15px 30px;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+            font-size: 18px;
+        }
+
+        .redirect-btn:hover {
+            background-color: #FF4500;
+        }
+
+        #particles-js {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            z-index: 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -232,22 +247,20 @@
     </div>
 
     <!-- Executers Section -->
-<div id="executers" class="container" style="display: none;">
-    <div class="script-item">
-        <!-- Direct download link for Delta (I-Phone) -->
-        <a href="https://deltaexploits.gg/ios_dl" download="https://deltaexploits.gg/ios_dl">
-            <img src="https://cdn.discordapp.com/icons/1221935816515911850/95623e9119884bba927e18d579f2cf78.webp" alt="Delta">
-            <p>Delta (I-Phone)</p>
-        </a>
+    <div id="executers" class="container" style="display: none;">
+        <div class="script-item">
+            <a href="https://deltaexploits.gg/ios_dl" download="https://deltaexploits.gg/ios_dl">
+                <img src="https://cdn.discordapp.com/icons/1221935816515911850/95623e9119884bba927e18d579f2cf78.webp" alt="Delta">
+                <p>Delta (I-Phone)</p>
+            </a>
+        </div>
+        <div class="script-item">
+            <a href="https://deltaexploits.gg/android_dl" download="https://deltaexploits.gg/android_dl">
+                <img src="https://cdn.discordapp.com/icons/1221935816515911850/95623e9119884bba927e18d579f2cf78.webp" alt="Delta">
+                <p>Delta (Android)</p>
+            </a>
+        </div>
     </div>
-    <div class="script-item">
-        <!-- Direct download link for Delta (Android) -->
-        <a href="https://deltaexploits.gg/android_dl" download="https://deltaexploits.gg/android_dl">
-            <img src="https://cdn.discordapp.com/icons/1221935816515911850/95623e9119884bba927e18d579f2cf78.webp" alt="Delta">
-            <p>Delta (Android)</p>
-        </a>
-    </div>
-</div>
 
     <!-- Modal Structure -->
     <div id="scriptModal" class="modal">
