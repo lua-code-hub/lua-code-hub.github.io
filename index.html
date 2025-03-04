@@ -324,6 +324,11 @@
             let hotkeysHtml = '';
             if (scriptType === 'aimbot') {
                 hotkeysHtml = `
+                    <div class="hotkey-item">Insert: Toggle The Ui</div>
+                    <div class="hotkey-item">End/Delete: Force close The Ui</div>
+                `;
+            } else if (scriptType === 'ud-aimbot') {
+                hotkeysHtml = `
                     <div class="hotkey-item">Numpad 1: Toggle ESP master switch</div>
                     <div class="hotkey-item">Numpad 2: Toggle Aimbot</div>
                     <div class="hotkey-item">Numpad 3: Toggle ESP Boxes</div>
@@ -333,13 +338,6 @@
                     <div class="hotkey-item">Numpad 7: Toggle Team Check (both ESP and Aimbot)</div>
                     <div class="hotkey-item">Numpad 8: Toggle Rainbow ESP</div>
                     <div class="hotkey-item">Numpad 9: Toggle FOV Circle</div>
-                `;
-            } else if (scriptType === 'ud-aimbot') {
-                hotkeysHtml = `
-                    <div class="hotkey-item">F1: Enable Aimbot</div>
-                    <div class="hotkey-item">F2: Toggle ESP</div>
-                    <div class="hotkey-item">F3: Toggle Triggerbot</div>
-                    <div class="hotkey-item">F4: Toggle Silent Aimbot</div>
                 `;
             } else {
                 hotkeysHtml = `<div class="hotkey-item">No hotkeys available for this script.</div>`;
