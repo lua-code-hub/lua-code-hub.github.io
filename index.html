@@ -7,204 +7,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Scripts Hub By Syfer-eng</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            background-color: #000;
-            overflow-y: scroll;
-            height: 100vh;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: #000;
+    overflow-y: scroll;
+    height: 100vh;
+    z-index: 1; /* Set body to a lower z-index */
+}
 
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
+#particles-js {
+    position: absolute; /* Fix the particles background */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0; /* Ensure particles are at the bottom */
+}
 
-        ::-webkit-scrollbar-track {
-            background: #222;
-            border-radius: 10px;
-        }
+.tabs {
+    display: flex;
+    justify-content: center;
+    background-color: #111;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 10; /* Bring tabs to the top */
+}
 
-        ::-webkit-scrollbar-thumb {
-            background: #fff;
-            border-radius: 10px;
-        }
+.tab {
+    margin: 0 20px;
+    padding: 12px 25px;
+    color: #bbb;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    background-color: #111;
+    z-index: 10; /* Ensure tabs are above background */
+}
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ccc;
-        }
+.random-code-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #ff0000, #ff9900, #33cc33, #0099ff, #9900cc);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000; /* Ensure button is on top */
+}
 
-        .tabs {
-            display: flex;
-            justify-content: center;
-            background-color: #111;
-            padding: 15px 0;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            transition: all 0.3s ease-in-out;
-        }
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    z-index: 10; /* Ensure script items are above background */
+}
 
-        .tab {
-            margin: 0 20px;
-            padding: 12px 25px;
-            color: #bbb;
-            cursor: pointer;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 5px;
-            position: relative;
-            transition: color 0.3s ease, background-color 0.3s ease;
-            background-color: #111;
-        }
+.script-item {
+    text-align: center;
+    margin: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+    z-index: 10; /* Make sure script items stay above the background */
+}
 
-        @keyframes rainbow {
-            0% { background-color: red; }
-            14% { background-color: orange; }
-            28% { background-color: yellow; }
-            42% { background-color: green; }
-            57% { background-color: blue; }
-            71% { background-color: indigo; }
-            85% { background-color: violet; }
-            100% { background-color: red; }
-        }
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000; /* Bring modal to the top */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 
-        .active-tab {
-            animation: rainbow 5s linear infinite;
-            color: white;
-        }
+.modal-content img {
+    max-width: 100%; /* Make the image responsive */
+    height: auto;    /* Maintain aspect ratio */
+    width: auto;     /* Ensure image maintains its original width */
+    object-fit: contain; /* Ensure the image fits nicely inside the modal */
+}
 
-        .tab:hover {
-            background-color: #333;
-            color: #fff;
-        }
+.script-item img {
+    max-width: 100%; /* Ensure images are responsive */
+    width: 350px;    /* Set a fixed width */
+    height: auto;    /* Keep aspect ratio */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
 
-        .tab:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background-color: white;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
+@media (max-width: 768px) {
+    .script-item img {
+        width: 100%; /* Make images fill their container on smaller screens */
+        height: auto;
+    }
+}
 
-        .tab:hover:before {
-            width: 100%;
-        }
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 80%;
+    max-width: 1000px;
+    position: relative;
+    color: white;
+    overflow-y: auto;
+    max-height: 80vh;
+    z-index: 2000; /* Ensure modal content is above background */
+}
 
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-            margin-bottom: 50px;
-        }
+.close {
+    color: #aaa;
+    font-size: 32px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    cursor: pointer;
+    z-index: 2100; /* Close button should be on top */
+}
 
-        .script-item {
-            text-align: center;
-            margin: 30px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            border-radius: 10px;
-        }
+.redirect-btn {
+    background-color: #FF6600;
+    color: white;
+    padding: 15px 30px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    z-index: 1000; /* Ensure button is on top of modal */
+}
 
-        .script-item:hover {
-            transform: scale(1.05);
-        }
-
-        .script-item img {
-            width: 350px;
-            height: 175px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .script-item p {
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            width: 80%;
-            max-width: 1000px;
-            position: relative;
-            color: white;
-            overflow-y: auto;
-            max-height: 80vh;
-        }
-
-        .modal-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            object-fit: contain;
-        }
-
-        .close {
-            color: #aaa;
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: white;
-        }
-
-        .hotkeys-list {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            font-size: 20px;
-            line-height: 1.8;
-        }
-
-        .redirect-btn {
-            background-color: #FF6600;
-            color: white;
-            padding: 15px 30px;
-            margin-top: 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s;
-            font-size: 18px;
-        }
-
-        .redirect-btn:hover {
-            background-color: #FF4500;
-        }
+.redirect-btn:hover {
+    background-color: #FF4500;
+}
 
         .random-code-btn {
             position: fixed;
