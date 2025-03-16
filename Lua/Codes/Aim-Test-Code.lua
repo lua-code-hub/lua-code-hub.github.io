@@ -509,6 +509,7 @@ local function GetClosestPlayerToMouse()
     local shortestDistance = math.huge
     local screenCenter = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
 
+    -- Return locked target if right mouse is held
     if targetPlayer and isRightMouseDown then
         if targetPlayer.Character and targetPlayer.Character:FindFirstChild(AimSettings.TargetPart) then
             return targetPlayer
@@ -520,23 +521,30 @@ local function GetClosestPlayerToMouse()
             local targetPart = player.Character[AimSettings.TargetPart]
             local targetPosition, onScreen = camera:WorldToViewportPoint(targetPart.Position)
             
+            -- Check distance from player to local character
             local characterDistance = (targetPart.Position - localPlayer.Character.HumanoidRootPart.Position).Magnitude
             if characterDistance > Settings.Aimbot.MaxDistance then
                 continue
             end
 
             if onScreen then
+                -- Calculate distance from screen center instead of mouse position
                 local screenPosition = Vector2.new(targetPosition.X, targetPosition.Y)
-                local distance = (screenPosition - screenCenter).Magnitude
+                local distanceFromCenter = (screenPosition - screenCenter).Magnitude
 
-                if distance <= Settings.Aimbot.FOV and distance < shortestDistance then
+                if distanceFromCenter <= Settings.Aimbot.FOV and distanceFromCenter < shortestDistance then
+                    -- Check team if team check is enabled
+                    if Settings.Aimbot.TeamCheck and player.Team == localPlayer.Team then
+                        continue
+                    end
+                    
                     closestPlayer = player
-                    shortestDistance = distance
+                    shortestDistance = distanceFromCenter
                 end
             end
         end
     end
-
+    
     return closestPlayer
 end
 
