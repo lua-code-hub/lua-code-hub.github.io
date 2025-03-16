@@ -1,7 +1,7 @@
-local UI = loadstring(game:HttpGet("path_to_enhanced_ui.lua"))()
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Menu-Lib-Test.lua"))()
 
 -- Add custom game script
-UI.addGameScript(12345, "https://example.com/script.lua")
+UI.addGameScript(17625359962, "https://example.com/script.lua")
 
 -- Add custom button
 UI.addButton("Custom Action", function()
