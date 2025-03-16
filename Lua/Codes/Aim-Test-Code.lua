@@ -396,18 +396,18 @@ elseif category == "Aimbot" then
             if category == "Aimbot" and setting == "ShowFOV" then
         FOVCircle.Visible = newState
     end
-
+    
         if setting == "Enabled" or setting == "NoClip" then
             createNotification(name, name .. " is now " .. (Toggles[name] and "Enabled" or "Disabled"), 1)
         end
         
-    local targetPosition = newState and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
-    local targetColor = newState and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
-    
-    TweenService:Create(ToggleInner, TweenInfo.new(0.2), {
-        Position = targetPosition,
-        BackgroundColor3 = targetColor
-    }):Play()
+        local targetPosition = Settings[category][setting] and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
+        local targetColor = Settings[category][setting] and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
+        
+        TweenService:Create(ToggleInner, TweenInfo.new(0.2), {
+            Position = targetPosition,
+            BackgroundColor3 = targetColor
+        }):Play()
     end)
     
     return ToggleFrame
