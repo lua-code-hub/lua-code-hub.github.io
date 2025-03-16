@@ -92,9 +92,9 @@ TitleLabel.TextSize = 16
 -- Create Keybind Button
 local keybindButton = Instance.new("TextButton")
 keybindButton.Parent = MenuFrame
-keybindButton.Size = UDim2.new(0.3, 0, 0, 30)
-keybindButton.Position = UDim2.new(0.67, 0, 0.93, 0)
-keybindButton.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+keybindButton.Size = UDim2.new(0.3, 0, 0, 20)
+keybindButton.Position = UDim2.new(0.67, 0, 0.01, 0)
+keybindButton.BackgroundColor3 = Color3.fromRGB(97, 97, 97)
 keybindButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 keybindButton.Font = Enum.Font.GothamBold
 keybindButton.TextSize = 14
