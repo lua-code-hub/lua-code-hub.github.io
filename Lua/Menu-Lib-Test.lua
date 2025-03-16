@@ -10,8 +10,10 @@ local supportedGames = loadstring(game:HttpGet("https://raw.githubusercontent.co
 
 -- GUI Setup
 local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.DisplayOrder = 999999999
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.Parent = Player.PlayerGui
-ScreenGui.Name = "EnhancedOwlMenu"
+ScreenGui.Name = "Syfer-eng Menu"
 ScreenGui.Enabled = true
 
 -- Create Enhanced Blur Effect
@@ -21,6 +23,7 @@ blur.Size = 0
 
 -- Main Frame
 local MenuFrame = Instance.new("Frame")
+MenuFrame.ZIndex = 999999
 MenuFrame.Parent = ScreenGui
 MenuFrame.Size = UDim2.new(0.15, 0, 0.2, 0)
 MenuFrame.AnchorPoint = Vector2.new(0.5, 0.5)
