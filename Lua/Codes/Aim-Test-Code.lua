@@ -286,7 +286,7 @@ local function CreateToggle(parent, name, category, setting)
     local ToggleInner = Instance.new("Frame")
     
     ToggleFrame.Name = name .. "Toggle"
-    ToggleFrame.Size = UDim2.new(0.95, 0, 0, 50) -- Taller toggle
+    ToggleFrame.Size = UDim2.new(0.95, 0, 0, 50)
     ToggleFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     ToggleFrame.Parent = parent
     
@@ -325,21 +325,19 @@ local function CreateToggle(parent, name, category, setting)
     StatusCorner.CornerRadius = UDim.new(1, 0)
     StatusCorner.Parent = ToggleStatus
     
-    -- Initialize all toggles as OFF (red)
     Settings[category][setting] = false
     Toggles[name] = false
     
     ToggleInner.Name = "Inner"
     ToggleInner.Size = UDim2.new(0, 20, 0, 20)
-    ToggleInner.Position = UDim2.new(0, 2, 0.5, -10) -- Left position (OFF)
-    ToggleInner.BackgroundColor3 = Color3.fromRGB(255, 50, 50) -- Red color (OFF)
+    ToggleInner.Position = UDim2.new(0, 2, 0.5, -10)
+    ToggleInner.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
     ToggleInner.Parent = ToggleStatus
     
     local InnerCorner = Instance.new("UICorner")
     InnerCorner.CornerRadius = UDim.new(1, 0)
     InnerCorner.Parent = ToggleInner
     
-    -- Add hover effect
     local hovering = false
     
     ToggleButton.MouseEnter:Connect(function()
@@ -356,7 +354,6 @@ local function CreateToggle(parent, name, category, setting)
         Settings[category][setting] = not Settings[category][setting]
         Toggles[name] = Settings[category][setting]
         
-        -- This is the key part - update the actual functionality when toggle changes
         if category == "ESP" then
             if setting == "Enabled" then
                 Settings.ESP.Enabled = Toggles[name]
@@ -377,14 +374,18 @@ local function CreateToggle(parent, name, category, setting)
                 Settings.ESP.Health = Toggles[name]
                 Toggles.Health = Toggles[name]
             end
-        elseif category == "Aimbot" then
-            if setting == "Enabled" then
-                Settings.Aimbot.Enabled = Toggles[name]
-                Toggles.Aimbot = Toggles[name]
-            elseif setting == "ShowFOV" then
-                Settings.Aimbot.ShowFOV = Toggles[name]
-                FOVCircle.Visible = Toggles[name]
-            end
+elseif category == "Aimbot" then
+    if setting == "Enabled" then
+        Settings.Aimbot.Enabled = Toggles[name]
+        Toggles.Aimbot = Toggles[name]
+    elseif setting == "ShowFOV" then
+        Settings.Aimbot.ShowFOV = Toggles[name]
+        Toggles.ShowFOV = Toggles[name]
+        FOVCircle.Visible = Toggles[name]
+    elseif setting == "TriggerBot" then
+        Settings.Aimbot.TriggerBot = Toggles[name]
+        Toggles.TriggerBot = Toggles[name]
+    end
         elseif category == "Misc" then
             if setting == "NoClip" then
                 Settings.Misc.NoClip = Toggles[name]
@@ -392,18 +393,21 @@ local function CreateToggle(parent, name, category, setting)
             end
         end
         
-        -- Provide feedback with notification for important toggles
+            if category == "Aimbot" and setting == "ShowFOV" then
+        FOVCircle.Visible = newState
+    end
+
         if setting == "Enabled" or setting == "NoClip" then
             createNotification(name, name .. " is now " .. (Toggles[name] and "Enabled" or "Disabled"), 1)
         end
         
-        local targetPosition = Settings[category][setting] and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
-        local targetColor = Settings[category][setting] and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
-        
-        TweenService:Create(ToggleInner, TweenInfo.new(0.2), {
-            Position = targetPosition,
-            BackgroundColor3 = targetColor
-        }):Play()
+    local targetPosition = newState and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
+    local targetColor = newState and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
+    
+    TweenService:Create(ToggleInner, TweenInfo.new(0.2), {
+        Position = targetPosition,
+        BackgroundColor3 = targetColor
+    }):Play()
     end)
     
     return ToggleFrame
@@ -854,11 +858,11 @@ local function PopulateAimbotPage()
     local teamCheckToggle = CreateToggle(AimbotPage, "Team Check", "Aimbot", "TeamCheck")
     teamCheckToggle.Position = UDim2.new(0, 0, 0, 70)
     
-    local showFOVToggle = CreateToggle(AimbotPage, "Show FOV", "Aimbot", "ShowFOV")
-    showFOVToggle.Position = UDim2.new(0, 0, 0, 130)
-    
     local triggerBotToggle = CreateToggle(AimbotPage, "Trigger Bot", "Aimbot", "TriggerBot")
     triggerBotToggle.Position = UDim2.new(0, 0, 0, 190)
+
+    local showFOVToggle = CreateToggle(AimbotPage, "Show FOV", "Aimbot", "ShowFOV")
+    showFOVToggle.Position = UDim2.new(0, 0, 0, 130)
     
     local fovSlider = CreateSlider(AimbotPage, "FOV", "Aimbot", "FOV", 10, 500, 150)
     fovSlider.Position = UDim2.new(0, 0, 0, 250)
