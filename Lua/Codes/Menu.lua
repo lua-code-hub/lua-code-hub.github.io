@@ -3,27 +3,27 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local mouse = Player:GetMouse()
 
-
+-- GUI Setup
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = Player.PlayerGui
 ScreenGui.Name = "EnhancedSyferMenu"
 ScreenGui.Enabled = true
 
-
+-- Create Enhanced Blur Effect
 local blur = Instance.new("BlurEffect")
 blur.Parent = game.Lighting
 blur.Size = 0
 
-
+-- Dragging Variables
 local dragging
 local dragInput
 local dragStart
 local startPos
 
-
+-- Main Frame
 local MenuFrame = Instance.new("Frame")
 MenuFrame.Parent = ScreenGui
-MenuFrame.Size = UDim2.new(0.4, 0, 0.5, 0)
+MenuFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
 MenuFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MenuFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 MenuFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
@@ -31,7 +31,7 @@ MenuFrame.BorderSizePixel = 0
 MenuFrame.BackgroundTransparency = 1
 MenuFrame.ClipsDescendants = true
 
-
+-- Enhanced Gradient
 local UIGradient = Instance.new("UIGradient")
 UIGradient.Color = ColorSequence.new({
     ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 40, 60)),
@@ -40,14 +40,14 @@ UIGradient.Color = ColorSequence.new({
 })
 UIGradient.Parent = MenuFrame
 
-
+-- Animated Gradient
 local gradientRotation = 0
 game:GetService("RunService").Heartbeat:Connect(function()
     gradientRotation = gradientRotation + 1
     UIGradient.Rotation = gradientRotation
 end)
 
-
+-- Enhanced Corner and Stroke
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 15)
 UICorner.Parent = MenuFrame
@@ -57,7 +57,7 @@ UIStroke.Color = Color3.fromRGB(100, 100, 255)
 UIStroke.Thickness = 2
 UIStroke.Parent = MenuFrame
 
-
+-- Animated Stroke Color
 local function animateStroke()
     while wait() do
         for i = 0, 1, 0.01 do
@@ -68,7 +68,7 @@ local function animateStroke()
 end
 coroutine.wrap(animateStroke)()
 
-
+-- Enhanced Drag Bar
 local DragBar = Instance.new("Frame")
 DragBar.Parent = MenuFrame
 DragBar.Size = UDim2.new(1, 0, 0, 30)
@@ -79,7 +79,7 @@ local DragBarCorner = Instance.new("UICorner")
 DragBarCorner.CornerRadius = UDim.new(0, 10)
 DragBarCorner.Parent = DragBar
 
-
+-- Enhanced Title Label
 local TitleLabel = Instance.new("TextLabel")
 TitleLabel.Parent = DragBar
 TitleLabel.Size = UDim2.new(1, 0, 1, 0)
@@ -89,7 +89,7 @@ TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TitleLabel.Font = Enum.Font.GothamBold
 TitleLabel.TextSize = 16
 
-
+-- Create Keybind Button
 local keybindButton = Instance.new("TextButton")
 keybindButton.Parent = MenuFrame
 keybindButton.Size = UDim2.new(0.3, 0, 0, 30)
@@ -105,11 +105,11 @@ local keybindCorner = Instance.new("UICorner")
 keybindCorner.CornerRadius = UDim.new(0, 6)
 keybindCorner.Parent = keybindButton
 
-
+-- Initialize toggle key
 local toggleKey = Enum.KeyCode.Insert
 keybindButton.Text = "Toggle: " .. toggleKey.Name
 
-
+-- Keybind changing logic
 local changing = false
 keybindButton.MouseButton1Click:Connect(function()
     changing = true
@@ -126,7 +126,7 @@ keybindButton.MouseButton1Click:Connect(function()
     end)
 end)
 
-
+-- Ripple Effect Function
 local function createRipple(button, x, y)
     local ripple = Instance.new("Frame")
     ripple.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -208,7 +208,7 @@ local function createEnhancedButton(name, onFunc, offFunc)
     end)
 end
 
-
+-- Enhanced Animation Functions
 local function enhancedFadeIn(object)
     local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Back)
     TweenService:Create(object, tweenInfo, {
@@ -227,7 +227,7 @@ local function enhancedFadeOut(object)
     TweenService:Create(blur, tweenInfo, {Size = 0}):Play()
 end
 
-
+-- Script Loading Functions
 local function loadOnScript()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua", true))()
 end
@@ -236,15 +236,15 @@ local function loadOffScript()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Bye-Aim.lua", true))()
 end
 
+-- Create Enhanced Main Button
+createEnhancedButton("Toggle Aim Script", loadOnScript, loadOffScript)
 
-createEnhancedButton("Test Aim Script", loadOnScript, loadOffScript)
-
-
+-- Enhanced Close Button
 local closeButton = Instance.new("TextButton")
 closeButton.Parent = MenuFrame
 closeButton.Size = UDim2.new(0.5, 0, 0, 40)
 closeButton.Position = UDim2.new(0.25, 0, 0.85, 0)
-closeButton.BackroundColor3 = Color3.fromRGB(220, 50, 50)
+closeButton.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
 closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeButton.Text = "Close"
 closeButton.Font = Enum.Font.GothamBold
@@ -260,10 +260,10 @@ closeButton.MouseButton1Click:Connect(function()
     createRipple(closeButton, mouse.X, mouse.Y)
     enhancedFadeOut(MenuFrame)
     wait(0.6)
-    blur:Destroy()
     ScreenGui:Destroy()
 end)
 
+-- Enable Dragging
 local function enableDragging(frame, handle)
     local dragging = false
     local dragInput
@@ -297,10 +297,10 @@ local function enableDragging(frame, handle)
     end)
 end
 
-
+-- Initialize Dragging
 enableDragging(MenuFrame, DragBar)
 
-
+-- Enhanced Keyboard Shortcuts
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if not changing and input.KeyCode == toggleKey then
         ScreenGui.Enabled = not ScreenGui.Enabled
@@ -312,10 +312,9 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     elseif input.KeyCode == Enum.KeyCode.End then
         enhancedFadeOut(MenuFrame)
         wait(0.6)
-        blur:Destroy()
         ScreenGui:Destroy()
     end
 end)
 
-
+-- Initialize UI with Enhanced Animation
 enhancedFadeIn(MenuFrame)
