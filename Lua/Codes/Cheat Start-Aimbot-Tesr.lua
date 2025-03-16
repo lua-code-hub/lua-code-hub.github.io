@@ -1,7 +1,15 @@
 local Player = game.Players.LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
+local MarketplaceService = game:GetService("MarketplaceService")
 local mouse = Player:GetMouse()
+
+-- Game Scripts Database
+local gameScripts = {
+    [286090429] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Arsenal.lua",
+    [292439477] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Phantom.lua",
+    [3233893879] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/BadBusiness.lua"
+}
 
 -- GUI Setup
 local ScreenGui = Instance.new("ScreenGui")
@@ -80,12 +88,13 @@ local DragBarCorner = Instance.new("UICorner")
 DragBarCorner.CornerRadius = UDim.new(0, 10)
 DragBarCorner.Parent = DragBar
 
--- Enhanced Title Label
+-- Enhanced Title Label with Game Name
+local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
 local TitleLabel = Instance.new("TextLabel")
 TitleLabel.Parent = DragBar
 TitleLabel.Size = UDim2.new(1, 0, 1, 0)
 TitleLabel.BackgroundTransparency = 1
-TitleLabel.Text = "Syfer-eng's Launcher"
+TitleLabel.Text = "OWL LAUNCHER - " .. gameName
 TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TitleLabel.Font = Enum.Font.Gotham
 TitleLabel.TextSize = 14
@@ -126,9 +135,16 @@ local function enhancedFadeIn(object)
     TweenService:Create(blur, tweenInfo, {Size = 15}):Play()
 end
 
--- Script Loading Function
+-- Script Loading Function with Game Detection
 local function loadScript()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua", true))()
+    local gameId = game.PlaceId
+    local scriptUrl = gameScripts[gameId]
+    
+    if scriptUrl then
+        loadstring(game:HttpGet(scriptUrl, true))()
+    else
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua", true))()
+    end
 end
 
 -- Create Main Button
@@ -138,7 +154,7 @@ mainButton.Size = UDim2.new(0.9, 0, 0.5, 0)
 mainButton.Position = UDim2.new(0.05, 0, 0.4, 0)
 mainButton.BackgroundColor3 = Color3.fromRGB(60, 60, 255)
 mainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-mainButton.Text = "Start"
+mainButton.Text = "LAUNCH"
 mainButton.Font = Enum.Font.Gotham
 mainButton.TextSize = 18
 mainButton.BorderSizePixel = 0
@@ -175,7 +191,7 @@ mainButton.MouseButton1Click:Connect(function()
     loadingText.Size = UDim2.new(1, 0, 0.5, 0)
     loadingText.Position = UDim2.new(0, 0, 0.25, 0)
     loadingText.BackgroundTransparency = 1
-    loadingText.Text = "Starting. . ."
+    loadingText.Text = "INITIALIZING..."
     loadingText.TextSize = 16
     loadingText.Font = Enum.Font.Gotham
     loadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -207,7 +223,7 @@ mainButton.MouseButton1Click:Connect(function()
     
     wait(2)
     loadScript()
-    wait(0.1)
+    wait(0.3)
     blur:Destroy()
     ScreenGui:Destroy()
 end)
