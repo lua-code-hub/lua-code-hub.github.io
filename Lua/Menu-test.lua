@@ -4,6 +4,7 @@ local gameName = game:GetService("MarketplaceService"):GetProductInfo(game.Place
 
 local supportedGames = {
     [17625359962] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua",
+    [286090429] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua",
 }
 
 for gameId, scriptUrl in pairs(supportedGames) do
