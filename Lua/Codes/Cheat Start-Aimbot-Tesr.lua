@@ -7,6 +7,7 @@ local mouse = Player:GetMouse()
 -- Game Scripts Database
 local gameScripts = {
     [17625359962] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua",
+    [286090429] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua",
 }
 
 -- GUI Setup
