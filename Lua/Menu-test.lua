@@ -2,13 +2,21 @@ local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-h
 
 local gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
-UI.addGameScript(17625359962, "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua")
+local supportedGames = {
+    [17625359962] = "https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua",
+}
+
+for gameId, scriptUrl in pairs(supportedGames) do
+    UI.addGameScript(gameId, scriptUrl)
+end
 
 UI.addButton("Custom Action", function()
-    if game.PlaceId == 17625359962 then
+    if supportedGames[game.PlaceId] then
         print(gameName .. " - Started Successfully!")
+        loadstring(game:HttpGet(supportedGames[game.PlaceId]))()
     else
         print(gameName .. " - Failed (Game Not Supported)")
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Not-Supported.lua"))()
     end
 end)
 
