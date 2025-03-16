@@ -64,11 +64,11 @@ local Settings = {
     Aimbot = {
         Enabled = false,
         TeamCheck = false,
-        Smoothness = 0.2,
+        Smoothness = 0.1,
         FOV = 150,
         TargetPart = "Head",
         ShowFOV = false,
-        PredictionMultiplier = 1.5,
+        PredictionMultiplier = 0,
         AutoPrediction = false,
         TriggerBot = false,
         TriggerDelay = 0.1,
@@ -860,23 +860,21 @@ local function PopulateAimbotPage()
     local triggerBotToggle = CreateToggle(AimbotPage, "Trigger Bot", "Aimbot", "TriggerBot")
     triggerBotToggle.Position = UDim2.new(0, 0, 0, 190)
     
-    local smoothnessSlider = CreateSlider(AimbotPage, "Smoothness", "Aimbot", "Smoothness", 0, 1, 0.2)
-    smoothnessSlider.Position = UDim2.new(0, 0, 0, 250)
-    
     local fovSlider = CreateSlider(AimbotPage, "FOV", "Aimbot", "FOV", 10, 500, 150)
-    fovSlider.Position = UDim2.new(0, 0, 0, 320)
+    fovSlider.Position = UDim2.new(0, 0, 0, 250)
     
     local predictionSlider = CreateSlider(AimbotPage, "Prediction", "Aimbot", "PredictionMultiplier", 0, 5, 1.5)
-    predictionSlider.Position = UDim2.new(0, 0, 0, 390)
+    predictionSlider.Position = UDim2.new(0, 0, 0, 320)
     
+    local maxDistanceSlider = CreateSlider(AimbotPage, "Max Distance", "Aimbot", "MaxDistance", 50, 1000, 250)
+    maxDistanceSlider.Position = UDim2.new(0, 0, 0, 390)
+    
+    -- Moved dropdown to the bottom with more space
     local targetPartDropdown = CreateDropdown(AimbotPage, "Target Part", "Aimbot", "TargetPart", {"Head", "HumanoidRootPart", "Torso"}, "Head")
     targetPartDropdown.Position = UDim2.new(0, 0, 0, 460)
     
-    local maxDistanceSlider = CreateSlider(AimbotPage, "Max Distance", "Aimbot", "MaxDistance", 50, 1000, 250)
-    maxDistanceSlider.Position = UDim2.new(0, 0, 0, 520)
-    
-    -- Update canvas size to accommodate all elements
-    AimbotPage.CanvasSize = UDim2.new(0, 0, 0, 590)
+    -- Added more canvas size for better scrolling
+    AimbotPage.CanvasSize = UDim2.new(0, 0, 0, 650)
 end
 
 local function PopulateESPPage()
