@@ -6,7 +6,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local mouse = Player:GetMouse()
 
 -- Load Supported Games from External Source
-local supportedGames = loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Supported-Games.lua"))()
+local supportedGames = loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Menu-test.lua"))()
 
 -- GUI Setup
 local ScreenGui = Instance.new("ScreenGui")
