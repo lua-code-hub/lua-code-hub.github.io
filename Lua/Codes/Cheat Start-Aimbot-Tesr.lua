@@ -143,7 +143,7 @@ local function loadScript()
     if scriptUrl then
         loadstring(game:HttpGet(scriptUrl, true))()
     else
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Aim-Test-Code.lua", true))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/lua-code-hub/lua-code-hub.github.io/refs/heads/main/Lua/Codes/Not-Supported.lua", true))()
     end
 end
 
