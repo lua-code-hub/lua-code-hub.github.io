@@ -23,7 +23,7 @@ local startPos
 -- Main Frame
 local MenuFrame = Instance.new("Frame")
 MenuFrame.Parent = ScreenGui
-MenuFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+MenuFrame.Size = UDim2.new(0.4, 0, 0.5, 0)
 MenuFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MenuFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 MenuFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
@@ -260,6 +260,7 @@ closeButton.MouseButton1Click:Connect(function()
     createRipple(closeButton, mouse.X, mouse.Y)
     enhancedFadeOut(MenuFrame)
     wait(0.6)
+    blur:Destroy()
     ScreenGui:Destroy()
 end)
 
@@ -312,6 +313,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     elseif input.KeyCode == Enum.KeyCode.End then
         enhancedFadeOut(MenuFrame)
         wait(0.6)
+        blur:Destroy()
         ScreenGui:Destroy()
     end
 end)
