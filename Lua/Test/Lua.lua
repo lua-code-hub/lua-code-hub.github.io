@@ -4,15 +4,14 @@ local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
+
+-- Get script directory for icon
 local scriptPath = debug.getinfo(1).source:sub(2)
 local scriptDir = scriptPath:match("(.*[/\\])")
+local iconPath = scriptDir .. "icon.png"
 
--- Epic animated notification sequence
-spawn(function()
+-- Create notification with local PNG icon
 local function createNotification(title, text, duration)
-    local iconPath = scriptDir .. "icon.png"
-    
-    -- Convert PNG to Roblox asset
     local icon = Instance.new("ImageLabel")
     icon.Image = iconPath
     
@@ -23,9 +22,11 @@ local function createNotification(title, text, duration)
         Icon = icon.Image
     })
 end
-    createNotification("Rivals Enhanced", "Loading features...", 2)
-    wait(2)
-    createNotification("Setup Complete", "Press INSERT to toggle UI", 3)
+
+-- Epic animated notification sequence
+spawn(function()
+    createNotification("Rivals Enhanced", "Features Loaded!", 2)
+    createNotification("💫 Ready!", "Press INSERT to toggle UI", 3)
 end)
 
 -- Variables
