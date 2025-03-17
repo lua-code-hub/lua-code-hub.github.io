@@ -5,23 +5,6 @@ local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
 
--- Get script directory for icon
-local scriptPath = debug.getinfo(1).source:sub(2)
-local scriptDir = scriptPath:match("(.*[/\\])")
-local iconPath = scriptDir .. "icon.png"
-
--- Create notification with local PNG icon
-local function createNotification(title, text, duration)
-    local icon = Instance.new("ImageLabel")
-    icon.Image = iconPath
-    
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = title,
-        Text = text,
-        Duration = duration,
-        Icon = icon.Image
-    })
-end
 
 -- Epic animated notification sequence
 spawn(function()
