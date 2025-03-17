@@ -1158,36 +1158,20 @@ RunService.RenderStepped:Connect(function()
             local target = GetClosestPlayerToMouse()
             if target and target.Character and target.Character:FindFirstChild(Settings.Aimbot.TargetPart) then
                 local targetPart = target.Character[Settings.Aimbot.TargetPart]
-                
-                local velocity = target.Character.HumanoidRootPart.Velocity
-                local predictionOffset = velocity * Settings.Aimbot.PredictionMultiplier * 0.1
-                local targetPosition = targetPart.Position + predictionOffset
+                local targetPosition = targetPart.Position
                 
                 local screenPosition, onScreen = camera:WorldToViewportPoint(targetPosition)
                 
                 if onScreen then
-                    local screenCenter = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
                     local aimPosition = Vector2.new(screenPosition.X, screenPosition.Y)
                     local mousePosition = UserInputService:GetMouseLocation()
                     
-                    local distance = (aimPosition - mousePosition).Magnitude
-                    local smoothness = Settings.Aimbot.Smoothness
-                    
-                    if distance > 5 then
-                        local aimDelta = (aimPosition - mousePosition) * smoothness
-                        mousemoverel(aimDelta.X, aimDelta.Y)
-                    end
+                    -- Direct movement without smoothing
+                    local aimDelta = (aimPosition - mousePosition)
+                    mousemoverel(aimDelta.X, aimDelta.Y)
                     
                     if Settings.Aimbot.TriggerBot then
-                        local ray = camera:ScreenPointToRay(screenCenter.X, screenCenter.Y)
-                        local raycastParams = RaycastParams.new()
-                        raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
-                        raycastParams.FilterDescendantsInstances = {localPlayer.Character}
-                        
-                        local raycastResult = workspace:Raycast(ray.Origin, ray.Direction * 1000, raycastParams)
-                        if raycastResult and raycastResult.Instance:IsDescendantOf(target.Character) then
-                            mouse1click()
-                        end
+                        mouse1click()
                     end
                 end
             end
