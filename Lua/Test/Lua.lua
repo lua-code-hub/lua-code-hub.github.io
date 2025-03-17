@@ -831,10 +831,8 @@ local function CreateDropdown(parent, name, category, setting, options, default)
     DropdownMenuCorner.CornerRadius = UDim.new(0, 6)
     DropdownMenuCorner.Parent = DropdownMenu
     
-    -- Initialize the dropdown value
     Settings[category][setting] = default
     
-    -- Create dropdown options
     for i, option in ipairs(options) do
         local OptionButton = Instance.new("TextButton")
         OptionButton.Name = option
@@ -848,53 +846,55 @@ local function CreateDropdown(parent, name, category, setting, options, default)
         OptionButton.ZIndex = 11
         OptionButton.Parent = DropdownMenu
         
+        local SelectedIndicator = Instance.new("Frame")
+        SelectedIndicator.Name = "SelectedIndicator"
+        SelectedIndicator.Size = UDim2.new(0, 4, 1, -4)
+        SelectedIndicator.Position = UDim2.new(0, 2, 0, 2)
+        SelectedIndicator.BackgroundColor3 = Color3.fromRGB(255, 0, 255)
+        SelectedIndicator.BorderSizePixel = 0
+        SelectedIndicator.Visible = (option == default)
+        SelectedIndicator.Parent = OptionButton
+        
+        local IndicatorCorner = Instance.new("UICorner")
+        IndicatorCorner.CornerRadius = UDim.new(0, 2)
+        IndicatorCorner.Parent = SelectedIndicator
+        
         local OptionButtonCorner = Instance.new("UICorner")
         OptionButtonCorner.CornerRadius = UDim.new(0, 6)
         OptionButtonCorner.Parent = OptionButton
         
-        -- Option button hover effect
-        OptionButton.MouseEnter:Connect(function()
-            TweenService:Create(OptionButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
-        end)
-        
-        OptionButton.MouseLeave:Connect(function()
-            TweenService:Create(OptionButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
-        end)
-        
         OptionButton.MouseButton1Click:Connect(function()
+            for _, child in pairs(DropdownMenu:GetChildren()) do
+                if child:IsA("TextButton") then
+                    child.SelectedIndicator.Visible = (child == OptionButton)
+                end
+            end
+            
             DropdownButton.Text = option
             Settings[category][setting] = option
-            DropdownMenu.Visible = false
             
-            -- Update target part for aimbot
-            if setting == "TargetPart" then
-                AimSettings.TargetPart = option
+            if category == "ESP" then
+                if setting == "BoxType" then
+                    Settings.ESP.BoxType = option
+                elseif setting == "TracerOrigin" then
+                    Settings.ESP.TracerOrigin = option
+                end
+            elseif category == "Aimbot" then
+                if setting == "TargetPart" then
+                    Settings.Aimbot.TargetPart = option
+                    AimSettings.TargetPart = option
+                elseif setting == "AimMode" then
+                    Settings.Aimbot.AimMode = option
+                end
             end
+            
+            DropdownMenu.Visible = false
+            createNotification("Selection Changed", name .. " set to " .. option, 1)
         end)
     end
     
-    -- Toggle dropdown menu
     DropdownButton.MouseButton1Click:Connect(function()
         DropdownMenu.Visible = not DropdownMenu.Visible
-    end)
-    
-    -- Close dropdown when clicking elsewhere
-    UserInputService.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            local mousePos = UserInputService:GetMouseLocation()
-            if DropdownMenu.Visible then
-                local menuPos = DropdownMenu.AbsolutePosition
-                local menuSize = DropdownMenu.AbsoluteSize
-                
-                if mousePos.X < menuPos.X or mousePos.X > menuPos.X + menuSize.X or
-                   mousePos.Y < menuPos.Y or mousePos.Y > menuPos.Y + menuSize.Y then
-                    if mousePos.X < DropdownButton.AbsolutePosition.X or mousePos.X > DropdownButton.AbsolutePosition.X + DropdownButton.AbsoluteSize.X or
-                       mousePos.Y < DropdownButton.AbsolutePosition.Y or mousePos.Y > DropdownButton.AbsolutePosition.Y + DropdownButton.AbsoluteSize.Y then
-                        DropdownMenu.Visible = false
-                    end
-                end
-            end
-        end
     end)
     
     return DropdownFrame
