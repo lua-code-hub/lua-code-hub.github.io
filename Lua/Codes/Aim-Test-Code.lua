@@ -28,6 +28,7 @@ local isLeftMouseDown = false
 local isRightMouseDown = false
 local autoClickConnection = nil
 local noClipEnabled = false
+local isUIOpen = true
 
 -- Settings
 local AimSettings = {
@@ -1015,7 +1016,8 @@ CloseButtonCorner.CornerRadius = UDim.new(0, 6)
 CloseButtonCorner.Parent = CloseButton
 
 CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
+    Settings.Aimbot.Enabled = false
+    FOVCircle.Visible = false
     
     -- Clean up all drawings
     FOVCircle:Remove()
@@ -1029,8 +1031,9 @@ CloseButton.MouseButton1Click:Connect(function()
     if autoClickConnection then
         autoClickConnection:Disconnect()
     end
+    
+    ScreenGui:Destroy()
 end)
-
 -- Create Minimize Button
 local MinimizeButton = Instance.new("TextButton")
 MinimizeButton.Name = "MinimizeButton"
@@ -1146,63 +1149,56 @@ end)
 
 -- Main loop for aimbot and ESP
 RunService.RenderStepped:Connect(function()
-    -- Update FOV Circle position
-    FOVCircle.Position = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
-    FOVCircle.Visible = Settings.Aimbot.ShowFOV
-    FOVCircle.Radius = Settings.Aimbot.FOV
-    
-    -- Update ESP
-    UpdateESP()
-    
-    -- Aimbot logic
-    if Settings.Aimbot.Enabled and isRightMouseDown then
-        local target = GetClosestPlayerToMouse()
-        if target and target.Character and target.Character:FindFirstChild(Settings.Aimbot.TargetPart) then
-            local targetPart = target.Character[Settings.Aimbot.TargetPart]
-            
-            -- Apply prediction if target is moving
-            local velocity = target.Character.HumanoidRootPart.Velocity
-            local predictionOffset = velocity * Settings.Aimbot.PredictionMultiplier * 0.1
-            local targetPosition = targetPart.Position + predictionOffset
-            
-            -- Convert 3D position to 2D screen position
-            local screenPosition, onScreen = camera:WorldToViewportPoint(targetPosition)
-            
-            if onScreen then
-                local screenCenter = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
-                local aimPosition = Vector2.new(screenPosition.X, screenPosition.Y)
-                local mousePosition = UserInputService:GetMouseLocation()
+    if isUIOpen then
+        FOVCircle.Position = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
+        FOVCircle.Visible = Settings.Aimbot.ShowFOV
+        FOVCircle.Radius = Settings.Aimbot.FOV
+        
+        if Settings.Aimbot.Enabled and isRightMouseDown then
+            local target = GetClosestPlayerToMouse()
+            if target and target.Character and target.Character:FindFirstChild(Settings.Aimbot.TargetPart) then
+                local targetPart = target.Character[Settings.Aimbot.TargetPart]
                 
-                -- Calculate distance and apply smoothing
-                local distance = (aimPosition - mousePosition).Magnitude
-                local smoothness = Settings.Aimbot.Smoothness
+                local velocity = target.Character.HumanoidRootPart.Velocity
+                local predictionOffset = velocity * Settings.Aimbot.PredictionMultiplier * 0.1
+                local targetPosition = targetPart.Position + predictionOffset
                 
-                if distance > 5 then
-                    local aimDelta = (aimPosition - mousePosition) * smoothness
-                    mousemoverel(aimDelta.X, aimDelta.Y)
-                end
+                local screenPosition, onScreen = camera:WorldToViewportPoint(targetPosition)
                 
-                -- TriggerBot functionality
-                if Settings.Aimbot.TriggerBot then
-                    local ray = camera:ScreenPointToRay(screenCenter.X, screenCenter.Y)
-                    local raycastParams = RaycastParams.new()
-                    raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
-                    raycastParams.FilterDescendantsInstances = {localPlayer.Character}
+                if onScreen then
+                    local screenCenter = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
+                    local aimPosition = Vector2.new(screenPosition.X, screenPosition.Y)
+                    local mousePosition = UserInputService:GetMouseLocation()
                     
-                    local raycastResult = workspace:Raycast(ray.Origin, ray.Direction * 1000, raycastParams)
-                    if raycastResult and raycastResult.Instance:IsDescendantOf(target.Character) then
-                        mouse1click()
+                    local distance = (aimPosition - mousePosition).Magnitude
+                    local smoothness = Settings.Aimbot.Smoothness
+                    
+                    if distance > 5 then
+                        local aimDelta = (aimPosition - mousePosition) * smoothness
+                        mousemoverel(aimDelta.X, aimDelta.Y)
+                    end
+                    
+                    if Settings.Aimbot.TriggerBot then
+                        local ray = camera:ScreenPointToRay(screenCenter.X, screenCenter.Y)
+                        local raycastParams = RaycastParams.new()
+                        raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+                        raycastParams.FilterDescendantsInstances = {localPlayer.Character}
+                        
+                        local raycastResult = workspace:Raycast(ray.Origin, ray.Direction * 1000, raycastParams)
+                        if raycastResult and raycastResult.Instance:IsDescendantOf(target.Character) then
+                            mouse1click()
+                        end
                     end
                 end
             end
         end
     end
     
-    -- Silent Aim logic
+    UpdateESP()
+    
     if AimSettings.SilentAim and isLeftMouseDown then
         local target = GetClosestPlayerToMouse()
         if target and target.Character and target.Character:FindFirstChild(AimSettings.TargetPart) then
-            -- Implement hit chance
             if math.random(1, 100) <= AimSettings.HitChance then
                 perfectAim(target.Character[AimSettings.TargetPart])
             end
