@@ -590,11 +590,8 @@ local function GetClosestPlayerToMouse()
     return closestPlayer
 end
 
--- Enhanced Update ESP Function
 local function UpdateESP()
-    -- Only run if ESP is enabled
     if not Settings.ESP.Enabled then
-        -- Hide all ESP elements when disabled
         for _, esp in pairs(Settings.ESP.Players) do
             for _, drawing in pairs(esp) do
                 drawing.Visible = false
@@ -602,69 +599,67 @@ local function UpdateESP()
         end
         return
     end
-    
+
     for player, esp in pairs(Settings.ESP.Players) do
         if player.Character and player ~= localPlayer then
-            local humanoidRootPart = player.Character:FindFirstChild("Torso")
+            local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart") or player.Character:FindFirstChild("Torso")
+            local humanoid = player.Character:FindFirstChild("Humanoid")
             local head = player.Character:FindFirstChild("Head")
-            
+
             if humanoidRootPart and humanoid and head then
-                local pos, onScreen = camera:WorldToViewportPoint(humanoidRootPart.Position)
-                local headPos = camera:WorldToViewportPoint(head.Position)
+                local torsoPos = camera:WorldToViewportPoint(humanoidRootPart.Position)
+                local headPos = camera:WorldToViewportPoint(head.Position + Vector3.new(0, 0.5, 0))
+                local legPos = camera:WorldToViewportPoint(humanoidRootPart.Position - Vector3.new(0, 3, 0))
                 local distance = (humanoidRootPart.Position - camera.CFrame.Position).Magnitude
-                
-                -- Team check logic
+
                 local passedTeamCheck = true
                 if Settings.ESP.TeamCheck then
                     passedTeamCheck = player.Team ~= localPlayer.Team
                 end
-                
-                if onScreen and distance <= Settings.ESP.MaxDistance and passedTeamCheck then
-                    -- Dynamic ESP Size based on distance
-                    local scaleFactor = 1 / (distance * 0.05)
-                    local size = (camera:WorldToViewportPoint(humanoidRootPart.Position + Vector3.new(2, 3, 0)).Y - camera:WorldToViewportPoint(humanoidRootPart.Position + Vector3.new(-2, -3, 0)).Y) / 2
-                    
-                    -- Box ESP
-                    esp.Box.Size = Vector2.new(size * 1.5, size * 3)
-                    esp.Box.Position = Vector2.new(pos.X - esp.Box.Size.X / 2, pos.Y - esp.Box.Size.Y / 2)
+
+                if torsoPos.Z > 0 and distance <= Settings.ESP.MaxDistance and passedTeamCheck then
+                    -- Box Calculation
+                    local height = math.abs(headPos.Y - legPos.Y)
+                    local width = height * 0.7
+                    esp.Box.Size = Vector2.new(width, height)
+                    esp.Box.Position = Vector2.new(torsoPos.X - width/2, torsoPos.Y - height/2)
                     esp.Box.Color = Settings.ESP.Rainbow and Color3.fromHSV(tick() % 5 / 5, 1, 1) or Settings.ESP.BoxColor
                     esp.Box.Visible = Settings.ESP.Boxes
-                    
+
                     -- Health Bar
-                    local healthBarHeight = esp.Box.Size.Y * (humanoid.Health / humanoid.MaxHealth)
-                    esp.HealthBarBackground.Size = Vector2.new(Settings.ESP.HealthBarSize.X, esp.Box.Size.Y)
-                    esp.HealthBarBackground.Position = Vector2.new(esp.Box.Position.X - esp.HealthBarBackground.Size.X * 2, esp.Box.Position.Y)
+                    local healthPercent = humanoid.Health / humanoid.MaxHealth
+                    esp.HealthBarBackground.Size = Vector2.new(4, height)
+                    esp.HealthBarBackground.Position = Vector2.new(torsoPos.X - width/2 - 8, torsoPos.Y - height/2)
                     esp.HealthBarBackground.Visible = Settings.ESP.Health
-                    
-                    esp.HealthBar.Size = Vector2.new(Settings.ESP.HealthBarSize.X, healthBarHeight)
-                    esp.HealthBar.Position = Vector2.new(esp.Box.Position.X - esp.HealthBar.Size.X * 2, esp.Box.Position.Y + esp.Box.Size.Y - healthBarHeight)
-                    esp.HealthBar.Color = Color3.fromRGB(255 - (255 * (humanoid.Health / humanoid.MaxHealth)), 255 * (humanoid.Health / humanoid.MaxHealth), 0)
+
+                    esp.HealthBar.Size = Vector2.new(4, height * healthPercent)
+                    esp.HealthBar.Position = Vector2.new(torsoPos.X - width/2 - 8, torsoPos.Y + height/2 - height * healthPercent)
+                    esp.HealthBar.Color = Color3.fromRGB(255 - (255 * healthPercent), 255 * healthPercent, 0)
                     esp.HealthBar.Visible = Settings.ESP.Health
-                    
+
                     -- Name ESP
-                    esp.Name.Position = Vector2.new(pos.X, esp.Box.Position.Y - 20)
-                    esp.Name.Text = string.format("%s", player.Name)
-                    esp.Name.Size = math.clamp(16 * scaleFactor, 12, 16)
+                    esp.Name.Position = Vector2.new(torsoPos.X, torsoPos.Y - height/2 - 20)
+                    esp.Name.Text = player.Name
                     esp.Name.Visible = Settings.ESP.Names
-                    
+
                     -- Distance ESP
-                    esp.Distance.Position = Vector2.new(pos.X, esp.Box.Position.Y + esp.Box.Size.Y + 10)
-                    esp.Distance.Text = string.format("[%d studs]", distance)
-                    esp.Distance.Size = math.clamp(14 * scaleFactor, 10, 14)
+                    esp.Distance.Position = Vector2.new(torsoPos.X, torsoPos.Y + height/2 + 5)
+                    esp.Distance.Text = string.format("[%d]", math.floor(distance))
                     esp.Distance.Visible = Settings.ESP.Distance
-                    
-                    -- Snapline ESP
-                    esp.Snapline.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y)
-                    esp.Snapline.To = Vector2.new(pos.X, pos.Y)
-                    esp.Snapline.Color = esp.Box.Color
+
+                    -- Snaplines
+                    esp.Snapline.From = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y)
+                    esp.Snapline.To = Vector2.new(torsoPos.X, torsoPos.Y)
                     esp.Snapline.Visible = Settings.ESP.Snaplines
-                    
-                    -- Head Dot ESP
-                    esp.HeadDot.Position = Vector2.new(headPos.X, headPos.Y)
-                    esp.HeadDot.Color = esp.Box.Color
+
+                    -- Head Dot with perfect center positioning
+                    local headCFrame = head.CFrame
+                    local headCenter = headCFrame.Position
+                    local headCenterScreen = camera:WorldToViewportPoint(headCenter)
+                    esp.HeadDot.Position = Vector2.new(headCenterScreen.X, headCenterScreen.Y)
                     esp.HeadDot.Visible = Settings.ESP.Boxes
+
                 else
-                    -- Hide ESP when not on screen
                     for _, drawing in pairs(esp) do
                         drawing.Visible = false
                     end
