@@ -1052,12 +1052,14 @@ CloseButtonCorner.Parent = CloseButton
 
 CloseButton.MouseButton1Click:Connect(function()
     Settings.Aimbot.Enabled = false
+    Settings.ESP.Enabled = false
     FOVCircle.Visible = false
     
     -- Clean up all drawings
     FOVCircle:Remove()
     for _, esp in pairs(Settings.ESP.Players) do
         for _, drawing in pairs(esp) do
+            drawing.Visible = false
             drawing:Remove()
         end
     end
