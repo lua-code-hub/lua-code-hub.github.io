@@ -23,10 +23,10 @@ end)
 -- Variables
 local localPlayer = Players.LocalPlayer
 local camera = workspace.CurrentCamera
-local targetPlayer = nil
-local isLeftMouseDown = false 
+local mouse = localPlayer:GetMouse()
+local isLeftMouseDown = false
 local isRightMouseDown = false
-local autoClickConnection = nil
+local targetPlayer = nil
 local noClipEnabled = false
 local isUIOpen = true
 
@@ -166,6 +166,47 @@ TitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
 TitleText.TextSize = 18 -- Larger text
 TitleText.Font = Enum.Font.GothamBold
 TitleText.Parent = TitleBar
+
+local dragging = false
+local dragInput
+local dragStart
+local startPos
+local DRAG_SPEED = 0.064
+
+local function updateDrag(input)
+    local delta = input.Position - dragStart
+    local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+                              startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    
+    local tweenInfo = TweenInfo.new(DRAG_SPEED, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    TweenService:Create(MainFrame, tweenInfo, {Position = position}):Play()
+end
+
+TitleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+TitleBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        updateDrag(input)
+    end
+end)
 
 local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 10)
