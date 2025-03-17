@@ -5,10 +5,18 @@ local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
 
-
 -- Epic animated notification sequence
 spawn(function()
-    createNotification("Rivals Enhanced", "Features Loaded!", 2)
+    local function createNotification(title, text, duration)
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = title,
+            Text = text,
+            Duration = duration,
+            Icon = "rbxassetid://81195480670192"  -- Updated to a working icon ID
+        })
+        wait(duration)
+    end
+    createNotification("Syfer-eng's Rival Enhanced", "Features Loaded!", 2)
     createNotification("💫 Ready!", "Press INSERT to toggle UI", 3)
 end)
 
@@ -1182,12 +1190,11 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
--- Create notification function
 function createNotification(title, text, duration)
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = title,
         Text = text,
         Duration = duration,
-        Icon = "rbxassetid://13647654264"
+        Icon = "rbxassetid://81195480670192"  -- Updated to a working icon ID
     })
 end
