@@ -605,8 +605,7 @@ local function UpdateESP()
     
     for player, esp in pairs(Settings.ESP.Players) do
         if player.Character and player ~= localPlayer then
-            local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
-            local humanoid = player.Character:FindFirstChild("Humanoid")
+            local humanoidRootPart = player.Character:FindFirstChild("Torso")
             local head = player.Character:FindFirstChild("Head")
             
             if humanoidRootPart and humanoid and head then
@@ -924,8 +923,8 @@ local function PopulateAimbotPage()
     maxDistanceSlider.Position = UDim2.new(0, 0, 0, 390)
     
     -- Moved dropdown to the bottom with more space
-    local targetPartDropdown = CreateDropdown(AimbotPage, "Target Part", "Aimbot", "TargetPart", {"Head", "HumanoidRootPart", "Torso"}, "Head")
-    targetPartDropdown.Position = UDim2.new(0, 0, 0, 460)
+local targetPartDropdown = CreateDropdown(AimbotPage, "Target Part", "Aimbot", "TargetPart", {"Head", "Torso"}, "Head")
+targetPartDropdown.Position = UDim2.new(0, 0, 0, 460)
     
     -- Added more canvas size for better scrolling
     AimbotPage.CanvasSize = UDim2.new(0, 0, 0, 650)
