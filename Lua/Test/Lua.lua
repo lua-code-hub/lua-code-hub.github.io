@@ -16,7 +16,7 @@ spawn(function()
         })
         wait(duration)
     end
-    createNotification("Syfer-eng's Rival Enhanced", "Features Loaded!", 2)
+    createNotification("Syfer-eng Enhanced", "Features Loaded!", 2)
     createNotification("💫 Ready!", "Press INSERT to toggle UI", 3)
 end)
 
@@ -106,7 +106,7 @@ local toggleKeys = {
 
 -- Create Enhanced UI
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "RivalsEnhancedGUI"
+ScreenGui.Name = "Syfer-eng Enhanced"
 ScreenGui.Parent = CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
@@ -161,7 +161,7 @@ local TitleText = Instance.new("TextLabel")
 TitleText.Name = "Title"
 TitleText.Size = UDim2.new(1, 0, 1, 0)
 TitleText.BackgroundTransparency = 1
-TitleText.Text = "Rivals Enhanced"
+TitleText.Text = "Syfer-eng Enhanced"
 TitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
 TitleText.TextSize = 18 -- Larger text
 TitleText.Font = Enum.Font.GothamBold
